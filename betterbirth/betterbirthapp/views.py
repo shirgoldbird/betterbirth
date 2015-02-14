@@ -71,15 +71,19 @@ class MotherDetailView(DetailView):
 
     #def get_queryset(self, **kwargs):
     #    return Mother.objects.filter(id=self.kwargs['id'])
-    
+    #babies = Baby.__class__.objects.get(mother__id=self.kwargs['id'])
+      
+
     def get_context_data(self, **kwargs):
 	#mother = self.id.resolve(context)
         context = super(MotherDetailView, self).get_context_data(**kwargs)
         context['now'] = timezone.now()
 	#babies = Baby.object.filter(mother=mother)
-	babies = Baby.objects.filter(mother__id=self.kwargs['id'])
-	context['babies'] = babies
-        
+	#babies = Baby.objects.filter(mother__id=self.kwargs['id'])
+	#babies = Baby.objects.get(mother__id=self.kwargs['id'])
+	#context['babies'] = Baby.__class__.objects.get(mother__id=self.kwargs['id'])
+	#context['babies'] = self.object.all()        
+
         # get event log for user
         events = EventLog.objects.filter(mother=self.kwargs['id']).order_by('created_at')
         context['events'] = events
