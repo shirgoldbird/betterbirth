@@ -8,6 +8,7 @@ Built with Django and Bootstrap.
 
 ## To Do
 
+- Clean up files! Seriously.
 - Design icon-based interface for low literacy users
 - Maybe move away from Bootstrap
 - Switch to a better database relationship for women and their babies
