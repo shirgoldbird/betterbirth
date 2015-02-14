@@ -3,7 +3,9 @@
 {% block page_title %}Add A New Record{% endblock page_title %}
 
 {% block content %}
-<script type="text/javascript">
+
+<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<!-- <script type="text/javascript">
   $('#post-form').on('submit', function(event){
       event.preventDefault();
       console.log("form submitted!");  // sanity check
@@ -14,25 +16,47 @@
 	console.log("working");
 	console.log($('#first_name').val());
   };
+</script> -->
+
+<script type="text/javascript">
+  function ajaxRequest(){
+	$.ajax({
+		type: "POST",
+		url: "{% url 'post_request' %}",
+		dataType: "JSON",
+		async: true,
+		data: {
+			first_name: $('#first_name').val(),
+			last_name: $('#last_name').val(),
+			date_of_birth: $('#date_of_birth').val(),
+			status: $('#status').val(),
+			height: $('#height').val(),			
+		},
+		success: function (json) {
+			console.log("woo");
+		}
+	});
+}
 </script>
-
-{% comment %}
-<form action= "{% url 'post_request' %}" method="post" name="mother_form">
+<form action= "{% url 'post_request' %}" method="post" name="mother_form" onsubmit="return false;">
 {% csrf_token %}
-{% endcomment %}
-
-<form action="/create_mother/" method="POST" id="post-form">
-<p><b>First name: </b> <input type="text" id="first_name" name="first_name" /></p>
-<p><b>Last name: </b> <input type="text" id="last_name" name="last_name" /></p>
-<p><b>Date of birth: </b> <input type="date" id="date_of_birth" name="date_of_birth" /></p>
-<p><b>Status: </b> <select id="status">
+<!-- <form action="/create_mother/" method="POST" id="post-form"> -->
+<p><b>First name: </b></p>
+ <input type="text" id="first_name" name="first_name" />
+<p><b>Last name: </b></p>
+<input type="text" id="last_name" name="last_name" />
+<p><b>Date of birth: </b></p>
+ <input type="date" id="date_of_birth" name="date_of_birth" />
+<p><b>Status: </b></p> 
+		<select class="form-control" id="status">
                       <option value="p">Pregnant</option>
                       <option value="pp">Postpartum</option>
                       <option value="dc">Deceased</option>
-                    </select>
-<p><b>Height (cm): </b> <input type="number" id="height" name="height" /></p>
+                 </select>
+<p><b>Height (cm): </b></p>
+ <input type="number" id="height" name="height" />
 
-<button class="updateButton">Submit</Button>
+<p><button class="btn btn-primary actionbtn updateButton" onclick="ajaxRequest()">Submit</Button></p>
 </form>
 
 {% endblock %}

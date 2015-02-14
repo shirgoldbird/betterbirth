@@ -135,4 +135,14 @@ class MotherDelete(AjaxableResponseMixin, DeleteView):
 @csrf_exempt
 def post_request(request):
    if request.method == "POST" and request.is_ajax():        
-        print request.POST	
+        #print request.POST	
+	first_name = request.POST.get('first_name', None)
+	last_name = request.POST.get('last_name', None)
+	date_of_birth = request.POST.get('date_of_birth', None)
+	status = request.POST.get('status', None)
+	height = request.POST.get('height', None)
+	#m = Mother(first_name=first_name, last_name=last_name, date_of_birth=date_of_birth, status=status, height=height, created_at=datetime.datetime.now(), picture=NULL)
+	print "Got data: " + first_name + " " + last_name
+	m = Mother(first_name, last_name)
+	m.save()
+	print m.first_name + " " + m.last_name + " has been saved"
