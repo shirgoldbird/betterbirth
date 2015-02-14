@@ -2,7 +2,7 @@
 
 A simple, responsive web application designed for easy tracking of the outcomes of women and their babies during and after pregnancy. 
 
-Created for Ariadne Labs's [Better Birth Program](http://www.ariadnelabs.org/programs/betterbirth/) @ [IDHack 2015](http://idhack.developersfordevelopment.org/).
+Created for Ariadne Labs's [Better Birth Program](http://www.ariadnelabs.org/programs/betterbirth/) @ [IDHack 2015](http://idhack.developersfordevelopment.org/) in a very busy 14 hours.
 
 Built with Django and Bootstrap.
 
