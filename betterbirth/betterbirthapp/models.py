@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 
 MOTHER_STATUS_CHOICES = (('P', 'Pregnant'),
 			 ('PP', 'Postpartum'),
@@ -18,12 +19,16 @@ EVENT_TYPE_CHOICES = (('RC', 'Record Created'),
 
 class Mother(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
+	#created_by = models.ForeignKey(User)
 	first_name = models.CharField(max_length=200)	
 	last_name = models.CharField(max_length=200)
 	status = models.CharField(max_length=2, choices=MOTHER_STATUS_CHOICES)
 	date_of_birth = models.DateField(null=True, blank=True)
 	height = models.IntegerField(max_length=3, null=True, blank=True)	
 	picture = models.FileField(upload_to='/images/', null=True, blank=True)
+	
+	def get_absolute_url(self):
+		return reverse('mother-detail', kwargs={'pk' : self.pk})
 
 	def full_name(self):
 		return '%s %s' % (self.first_name, self.last_name)

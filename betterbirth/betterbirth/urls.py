@@ -1,10 +1,10 @@
 from django.conf.urls import patterns, include, url
 from django.conf.urls.static import static
 from django.conf import settings
-from django.views.generic import TemplateView
+from django.views.generic.base import TemplateView
 from django.http import HttpResponseRedirect
 
-from betterbirthapp.views import MotherListView, MotherDetailView, do_action
+from betterbirthapp.views import MotherListView, MotherDetailView, do_action, post_request, MotherCreate, MotherUpdate, MotherDelete
 from betterbirthapp.models import Mother
 
 # Uncomment the next two lines to enable the admin:
@@ -29,6 +29,11 @@ urlpatterns = patterns('',
   url(r'^action',
   	do_action,
   	name='do_action'),
+  url(r'^mothers/add', TemplateView.as_view(template_name='add_mother.html'), name='add_mother'),
+  url(r'^post_request/$', post_request, name='post_request'),
+#  url(r'^mothers/add/$', MotherCreate.as_view(), name="mother_add"),
+  url(r'^mothers/update/(?P<id>\d+)/$', MotherUpdate.as_view(), name="mother_update"),
+  url(r'^mothers/delete/(?P<id>\d+)/$', MotherDelete.as_view(), name="mother_delete"),
 
   # Uncomment the admin/doc line below to enable admin documentation:
   # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

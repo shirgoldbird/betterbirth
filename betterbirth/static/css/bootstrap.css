@@ -132,6 +132,9 @@ input[type="submit"] {
   -webkit-appearance: button;
   cursor: pointer;
 }
+#comment {
+	margin-left: 1em;
+}
 button[disabled],
 html input[disabled] {
   cursor: default;
@@ -3019,7 +3022,7 @@ fieldset[disabled] .btn {
   opacity: .65;
 }
 .btn-default {
-  color: #333;
+  color: #626267;
   background-color: #fff;
   border-color: #ccc;
 }
@@ -3064,9 +3067,9 @@ fieldset[disabled] .btn-default.active {
   background-color: #333;
 }
 .btn-primary {
-  color: #fff;
-  background-color: #337ab7;
-  border-color: #2e6da4;
+  color: #FDB813;
+  background-color: #626267;
+  border-color: #626267;
 }
 .btn-primary:hover,
 .btn-primary:focus,
@@ -3075,8 +3078,8 @@ fieldset[disabled] .btn-default.active {
 .btn-primary.active,
 .open > .dropdown-toggle.btn-primary {
   color: #fff;
-  background-color: #286090;
-  border-color: #204d74;
+  background-color: #626267;
+  border-color: #626267;
 }
 .btn-primary:active,
 .btn-primary.active,
@@ -5784,7 +5787,14 @@ button.close {
   padding: 15px;
   text-align: right;
   border-top: 1px solid #e5e5e5;
+  margin-top: 5em;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  background: white;
 }
+
+
 .modal-footer .btn + .btn {
   margin-bottom: 0;
   margin-left: 5px;

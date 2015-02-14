@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block nav %}
+{% if category == 'add' %}<li class="active"><a href="#">{% else %}<li><a href="/mothers/add">{% endif %}Add New Record</a></li>
 {% if category == 'all' %}<li class="active"><a href="#">{% else %}<li><a href="/mothers/list/all">{% endif %}All Maternal Records</a></li>
 {% if category == 'pregnant' %}<li class="active"><a href="#">{% else %}<li><a href="/mothers/list/pregnant">{% endif %}Pregnant Mothers</a></li>
 {% if category == 'postpartum' %}<li class="active"><a href="#">{% else %}<li><a href="/mothers/list/postpartum">{% endif %}Postpartum Mothers</a></li>
@@ -8,7 +9,12 @@
 <li><a href="/accounts/logout">Logout</a></li>
 {% endblock nav %}
 
-{% block page_title %}All Maternal Records{% endblock page_title %}
+{% block page_title %}
+{% if category == 'all' %}All Maternal Records{% endif %}
+{% if category == 'pregnant' %}Pregnant Mothers Records{% endif %}
+{% if category == 'postpartum' %}Postpartum Mothers Records{% endif %}
+{% if category == 'deceased' %}Deceased Mothers Records{% endif %}
+{% endblock page_title %}
 
 {% block content %}
 <table class="table-bordered table-condensed">

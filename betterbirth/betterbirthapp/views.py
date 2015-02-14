@@ -1,4 +1,4 @@
-from django.views.generic.edit import CreateView
+from django.views.generic.base import TemplateView
 from django.shortcuts import render
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
@@ -6,12 +6,39 @@ from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.template import Template, Context
-from django.http import HttpResponse, HttpResponseNotFound
+from django.http import HttpResponse, HttpResponseNotFound, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 import logging
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.core.urlresolvers import reverse_lazy
 
 from betterbirthapp.models import Mother, Baby, EventLog, MOTHER_STATUS_CHOICES
+
+class AjaxableResponseMixin(object):
+    """
+    Mixin to add AJAX support to a form.
+    Must be used with an object-based FormView (e.g. CreateView)
+    """
+    def form_invalid(self, form):
+        response = super(AjaxableResponseMixin, self).form_invalid(form)
+        if self.request.is_ajax():
+            return JsonResponse(form.errors, status=400)
+        else:
+            return response
+
+    def form_valid(self, form):
+        # We make sure to call the parent's form_valid() method because
+        # it might do some processing (in the case of CreateView, it will
+        # call form.save() for example).
+        response = super(AjaxableResponseMixin, self).form_valid(form)
+        if self.request.is_ajax():
+            data = {
+                'pk': self.object.pk,
+            }
+            return JsonResponse(data)
+        else:
+            return response
 
 class MotherListView(ListView):
     def get_queryset(self, **kwargs):
@@ -49,7 +76,9 @@ class MotherDetailView(DetailView):
 	#mother = self.id.resolve(context)
         context = super(MotherDetailView, self).get_context_data(**kwargs)
         context['now'] = timezone.now()
-        
+	#babies = Baby.object.filter(mother=mother)
+	babies = Baby.objects.filter(mother__id=self.kwargs['id'])
+	context['babies'] = babies
         
         # get event log for user
         events = EventLog.objects.filter(mother=self.kwargs['id']).order_by('created_at')
@@ -90,6 +119,20 @@ def do_action(request):
         mother.save()
     return HttpResponse('Great success!')
 
-class MotherCreateView(CreateView):
+class MotherCreate(AjaxableResponseMixin, CreateView):
 	model = Mother
 	exclude = ['created_at']
+
+class MotherUpdate(AjaxableResponseMixin, UpdateView):
+	model = Mother
+	exclude = ['created_at']
+
+class MotherDelete(AjaxableResponseMixin, DeleteView):
+	model = Mother
+	exclude = ['created_at']	
+	success_url = reverse_lazy('mother-list')
+
+@csrf_exempt
+def post_request(request):
+   if request.method == "POST" and request.is_ajax():        
+        print request.POST	

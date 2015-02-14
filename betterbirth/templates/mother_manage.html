@@ -3,10 +3,11 @@
 {% block page_title %}Record: {{ object.full_name }}{% endblock page_title %}
 
 {% block content %}
-	<p>DOB: {{ object.date_of_birth }}</p>
-	<p>Status: {{ object.get_status_display }}</p>
-	<p>Height: {{ object.height }} cm</p>
-	<p>Created: <span title="{{ object.created_at|date:"Y-m-d H:i:s" }}">{{ object.created_at|timesince:now }} ago</span></p>
+	<p><b>DOB:</b> {{ object.date_of_birth }}</p>
+	<p><b>Status:</b> {{ object.get_status_display }}</p>
+	<p><b>Height:</b> {{ object.height }} cm</p>
+	<p><b>Created:</b> <span title="{{ object.created_at|date:"Y-m-d H:i:s" }}">{{ object.created_at|timesince:now }} ago</span></p>
+	<p><b>Due Date:</b> {{ object.babies.due_date }} </p>
 
 	<h3>History</h3>
 		<table class="table table-condensed">
@@ -37,6 +38,6 @@
 		{% for abbr, desc in transitions %}
     			<button class="btn btn-primary actionbtn" data-header-label="Update Status: {{ desc }}" data-action="{{ abbr }}" data-id="{{ object.id }}">{{ desc }}</button>
 		{% endfor %}
-	<h5>Other Actions</h5>
-	<button class="btn btn-primary actionbtn" data-header-label="Add Note" data-action="N" data-id="{{ object.id }}">Add Comment</button>
+		<button id="comment" class="btn btn-primary actionbtn" data-header-label="Add Note" data-action="N" data-id="{{ object.id }}">Add Comment</button>
+	<!-- <h5>Other Actions</h5> -->
 {% endblock %}
