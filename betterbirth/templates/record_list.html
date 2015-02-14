@@ -21,7 +21,7 @@
 {% for mother in object_list %}
   <tr>
     <td><span title="{{ mother.created_at|date:"Y-m-d H:i:s" }}">{{ mother.created_at|timesince:now }} ago</span></td>
-    <td><a href="{{ mother.photo.url }}"></a></td>
+    <td><img src="{{ mother.photo.path }}"></td>
     <td><a href="/mothers/manage/{{ mother.id }}">{{ mother.full_name }}</a></td>
     <td>{{ mother.get_status_display }}</td>
   </tr>
