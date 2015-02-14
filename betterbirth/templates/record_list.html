@@ -8,7 +8,7 @@
 <li><a href="/accounts/logout">Logout</a></li>
 {% endblock nav %}
 
-{% block page_title %}Applications{% endblock page_title %}
+{% block page_title %}All Maternal Records{% endblock page_title %}
 
 {% block content %}
 <table class="table-bordered table-condensed">
@@ -21,14 +21,12 @@
 {% for mother in object_list %}
   <tr>
     <td><span title="{{ mother.created_at|date:"Y-m-d H:i:s" }}">{{ mother.created_at|timesince:now }} ago</span></td>
-    <td><a href="/mothers/manage/{{ mother.id }}">{{ mother.name }}</a></td>
-    <td>{{ mother.photo }}</td>
-    <td>{{ mother.status }}</td>
-    <td>{{ app.get_at_con_display }}</td>
-    <td>{{ app.get_workflow_state_display }}</td>
+    <td><a href="{{ mother.photo.url }}"></a></td>
+    <td><a href="/mothers/manage/{{ mother.id }}">{{ mother.full_name }}</a></td>
+    <td>{{ mother.get_status_display }}</td>
   </tr>
 {% empty %}
-  <tr><td colspan="9">No applications yet.</td></tr>
+  <tr><td colspan="9">No records yet.</td></tr>
 {% endfor %}
 </table>
 {% endblock content %}

@@ -93,10 +93,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = normpath(join(SITE_ROOT, 'assets'))
+STATIC_ROOT = normpath(join(DJANGO_ROOT, 'assets'))
 
 STATICFILES_DIRS = (
-	normpath(join(SITE_ROOT, 'static')),
+	normpath(join(DJANGO_ROOT, 'static')),
 )
 
 STATICFILES_FINDERS = (
@@ -121,7 +121,7 @@ TEMPLATE_LOADERS = (
 )
 
 TEMPLATE_DIRS = (
-	normpath(join(SITE_ROOT, 'templates')),
+	normpath(join(DJANGO_ROOT, 'templates')),
 )
 
 

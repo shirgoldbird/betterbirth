@@ -17,9 +17,9 @@ class MotherListView(ListView):
         category = self.kwargs['category']
         mapping = {
             'all': Mother.objects.all(),
-            'pregnant': Mother.objects.filter(status__in=('P')),
-            'postpartum': Mother.objects.filter(status__in=('PP')),
-            'deceased': Mother.objects.filter(status__in=('DC')),
+            'pregnant': Mother.objects.filter(status=('P')),
+            'postpartum': Mother.objects.filter(status=('PP')),
+            'deceased': Mother.objects.filter(status=('DC')),
         }
         return mapping[category] if category in mapping else None
     
@@ -36,7 +36,7 @@ class MotherListView(ListView):
 class MotherDetailView(DetailView):
     pk_url_kwarg = 'id'
     model = Mother
-    
+
     #def get_queryset(self, **kwargs):
     #    return Application.objects.filter(id=self.kwargs['id'])
     
@@ -44,27 +44,9 @@ class MotherDetailView(DetailView):
         context = super(MotherDetailView, self).get_context_data(**kwargs)
         context['now'] = timezone.now()
         
-        """
-        # massage responses into format that's good for rendering
-        qresponses = QResponse.objects.filter(application=self.kwargs['id']).order_by('question')
-        questions = Question.objects.all().order_by('id')
-        logging.debug(questions)
-        response_dict = dict([(qr.question.id, qr.response) for qr in qresponses])
-        logging.debug(response_dict)
-        responses = []
-        for q in questions:
-            logging.debug(q.id)
-            if q.id in response_dict:
-                resp = response_dict[q.id]
-            else:
-                resp = ''
-            responses.append((q.question_text, resp))
-        logging.debug(responses)
-        context['responses'] = responses
-        """
         
         # get event log for user
-        events = EventLog.objects.filter(application=self.kwargs['id']).order_by('created_at')
+        events = EventLog.objects.filter(mother=self.kwargs['id']).order_by('created_at')
         context['events'] = events
         
         # get acceptable transitions for user
@@ -83,6 +65,7 @@ class MotherDetailView(DetailView):
     def dispatch(self, *args, **kwargs):
         return super(MotherDetailView, self).dispatch(*args, **kwargs)
 
+@csrf_exempt
 @login_required
 def do_action(request):
     if request.method != 'POST':
