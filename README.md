@@ -1,4 +1,4 @@
-# betterbirth
+# forbetterbirth
 
 A simple, responsive web application designed for easy tracking of the outcomes of women and their babies during and after pregnancy. 
 
